@@ -83,14 +83,14 @@
         {
           "id": "dika-sagara",
           "title": "Dika · Sagara",
-          "cover": "../galleries/project/dika-sagara/login.png",
+          "cover": "galleries/project/dika-sagara/login.png",
           "description": "Screen capture aplikasi",
           "images": [
-            { "src": "../galleries/project/dika-sagara/home-menu.png", "alt": "Home menu" },
-            { "src": "../galleries/project/dika-sagara/inventory.png", "alt": "Inventory" },
-            { "src": "../galleries/project/dika-sagara/profilemenu.png", "alt": "Profile menu" },
-            { "src": "../galleries/project/dika-sagara/sales-report.png", "alt": "Sales report" },
-            { "src": "../galleries/project/dika-sagara/sample-request-menu.png", "alt": "Sample request" }
+            { "src": "galleries/project/dika-sagara/home-menu.png", "alt": "Home menu" },
+            { "src": "galleries/project/dika-sagara/inventory.png", "alt": "Inventory" },
+            { "src": "galleries/project/dika-sagara/profilemenu.png", "alt": "Profile menu" },
+            { "src": "galleries/project/dika-sagara/sales-report.png", "alt": "Sales report" },
+            { "src": "galleries/project/dika-sagara/sample-request-menu.png", "alt": "Sample request" }
           ]
         }
       ]
