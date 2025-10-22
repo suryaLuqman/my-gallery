@@ -1,0 +1,99 @@
+{
+  "title": "Root Galleries",
+  "description": "Collection Image Static via GitHub Pages",
+  "children": [
+    {
+      "id": "products",
+      "title": "Products",
+      "description": "Kategori produk",
+      "cover": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+      "children": [
+        {
+          "id": "electronics",
+          "title": "Electronics",
+          "cover": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+          "children": [
+            {
+              "id": "phones",
+              "title": "Phones",
+              "images": [
+                { "src": "galleries/products/electronics/phones/iphone-1.jpg", "alt": "iPhone front" },
+                { "src": "galleries/products/electronics/phones/iphone-2.jpg", "alt": "iPhone back" }
+              ]
+            },
+            {
+              "id": "cameras",
+              "title": "Cameras",
+              "images": [
+                { "src": "galleries/products/electronics/cameras/cam-1.jpg", "alt": "DSLR front" },
+                { "src": "galleries/products/electronics/cameras/cam-2.jpg", "alt": "DSLR top" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fashion",
+          "title": "Fashion",
+          "cover": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b"
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "title": "Events",
+      "description": "Dokumentasi event",
+      "cover": "https://images.unsplash.com/photo-1540575467063-178a50c2df87",
+      "children": [
+        {
+          "id": "launch-2024",
+          "title": "Product Launch 2024",
+          "images": [
+            { "src": "galleries/events/launch-2024/stage.png", "alt": "Stage" },
+            { "src": "galleries/events/launch-2024/audience.jpg", "alt": "Audience" }
+          ]
+        },
+        {
+          "id": "expo",
+          "title": "Tech Expo",
+          "children": [
+            {
+              "id": "day-1",
+              "title": "Day 1",
+              "images": [
+                { "src": "galleries/events/expo/day-1/booth.jpg", "alt": "Booth" }
+              ]
+            },
+            {
+              "id": "day-2",
+              "title": "Day 2",
+              "images": [
+                { "src": "galleries/events/expo/day-2/keynote.jpg", "alt": "Keynote" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project",
+      "title": "Projects",
+      "description": "Project-specific galleries",
+      "cover": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+      "children": [
+        {
+          "id": "dika-sagara",
+          "title": "Dika · Sagara",
+          "cover": "../galleries/project/dika-sagara/login.png",
+          "description": "Screen capture aplikasi",
+          "images": [
+            { "src": "../galleries/project/dika-sagara/home-menu.png", "alt": "Home menu" },
+            { "src": "../galleries/project/dika-sagara/inventory.png", "alt": "Inventory" },
+            { "src": "../galleries/project/dika-sagara/profilemenu.png", "alt": "Profile menu" },
+            { "src": "../galleries/project/dika-sagara/sales-report.png", "alt": "Sales report" },
+            { "src": "../galleries/project/dika-sagara/sample-request-menu.png", "alt": "Sample request" }
+          ]
+        }
+      ]
+    }
+  ]
+}

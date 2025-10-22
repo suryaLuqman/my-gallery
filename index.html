@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image Index · GitHub Pages</title>
+<link rel="stylesheet" href="assets/styles.css">
+<meta name="robots" content="noindex,nofollow,noarchive">
+</head><body>
+<div class="container">
+  <div class="header">
+    <h1>📦 Image Galleries</h1>
+    <a href="./">Home</a>
+  </div>
+  <div id="grid" class="grid"></div>
+  <div class="footer">Served via GitHub Pages · static & cache-friendly</div>
+</div>
+
+<script>
+async function load() {
+  const res = await fetch('galleries.json', {cache:'no-store'});
+  const data = await res.json();         // data.children = array top-level
+  const list = data.children || [];
+  const grid = document.getElementById('grid');
+
+  if (!list.length) {
+    grid.outerHTML = '<div class="empty">Belum ada kategori.</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(node => `
+    <a class="card" href="gallery.html?path=${encodeURIComponent(node.id)}">
+      <img loading="lazy" src="${node.cover || 'https://via.placeholder.com/600x400?text=No+Cover'}" alt="${node.title || node.id}">
+      <div class="body">
+        <div class="title">${node.title || node.id}</div>
+        <div class="desc">${node.description || ''}</div>
+      </div>
+    </a>
+  `).join('');
+}
+load();
+</script>
+</body></html>

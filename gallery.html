@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gallery · GitHub Pages</title>
+<link rel="stylesheet" href="assets/styles.css">
+<meta name="robots" content="noindex,nofollow,noarchive">
+</head><body>
+<div class="container">
+  <div class="header">
+    <div>
+      <div id="breadcrumb" class="breadcrumb"><a href="index.html">← Semua Kategori</a></div>
+      <h1 id="title">Gallery</h1>
+      <div id="desc" class="desc" style="margin-top:6px;"></div>
+    </div>
+    <a href="./">Home</a>
+  </div>
+
+  <div id="subcats"></div>
+  <div id="images" class="gallery"></div>
+
+  <div class="footer">Klik gambar untuk perbesar</div>
+</div>
+
+<!-- lightbox -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="close" id="lbClose" aria-label="Close">×</div>
+  <div class="nav prev" id="lbPrev">‹</div>
+  <img id="lbImg" alt="">
+  <div class="nav next" id="lbNext">›</div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const path = (params.get('path') || '').replace(/^\/+|\/+$/g,''); // sanitize
+
+function findNodeByPath(root, pathStr) {
+  if (!pathStr) return root;
+  const parts = pathStr.split('/').filter(Boolean);
+  let node = root;
+  for (const seg of parts) {
+    if (!node.children) return null;
+    node = node.children.find(c => c.id === seg);
+    if (!node) return null;
+  }
+  return node;
+}
+
+function buildBreadcrumb(pathStr, data) {
+  const container = document.getElementById('breadcrumb');
+  const parts = pathStr ? pathStr.split('/').filter(Boolean) : [];
+  const crumbs = ['<a href="index.html">← Semua Kategori</a>'];
+
+  let accum = [];
+  let cur = data;
+  for (const seg of parts) {
+    accum.push(seg);
+    if (!cur.children) break;
+    const found = cur.children.find(c => c.id === seg);
+    const label = (found && (found.title || found.id)) || seg;
+    crumbs.push(`<span>›</span> <a href="gallery.html?path=${encodeURIComponent(accum.join('/'))}">${label}</a>`);
+    cur = found || {};
+  }
+  container.innerHTML = crumbs.join(' ');
+}
+
+function renderSubcats(node, basePath) {
+  const sub = node.children || [];
+  const target = document.getElementById('subcats');
+  if (!sub.length) { target.innerHTML = ''; return; }
+
+  target.innerHTML = `
+    <div class="section-title">📁 Sub Kategori</div>
+    <div class="grid">
+      ${sub.map(n => `
+        <a class="card" href="gallery.html?path=${encodeURIComponent(basePath ? basePath + '/' + n.id : n.id)}">
+          <img loading="lazy" src="${n.cover || 'https://via.placeholder.com/600x400?text=No+Cover'}" alt="${n.title || n.id}">
+          <div class="body">
+            <div class="title">${n.title || n.id}</div>
+            <div class="desc">${n.description || ''}</div>
+          </div>
+        </a>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderImages(node) {
+  const list = node.images || [];
+  const wrap = document.getElementById('images');
+
+  if (!list.length) { 
+    wrap.innerHTML = '';
+    return;
+  }
+
+  wrap.innerHTML = list.map((it, i) => `
+    <figure class="thumb" data-i="${i}">
+      <img loading="lazy" src="${it.src}" alt="${it.alt ?? ''}">
+      ${it.alt ? `<figcaption class="caption">${it.alt}</figcaption>` : ''}
+    </figure>
+  `).join('');
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  let idx = 0;
+  function open(i){ idx = i; lbImg.src = list[idx].src; lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); }
+  function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbImg.src=''; }
+  function next(){ open((idx+1) % list.length); }
+  function prev(){ open((idx-1+list.length) % list.length); }
+
+  wrap.querySelectorAll('.thumb').forEach(el=>{
+    el.addEventListener('click',()=>open(parseInt(el.dataset.i)));
+  });
+  document.getElementById('lbClose').onclick = close;
+  document.getElementById('lbNext').onclick  = next;
+  document.getElementById('lbPrev').onclick  = prev;
+  lb.addEventListener('click', (e)=>{ if(e.target===lb) close(); });
+  window.addEventListener('keydown', (e)=>{ if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') close(); if(e.key==='ArrowRight') next(); if(e.key==='ArrowLeft') prev();
+  });
+}
+
+async function load() {
+  const res = await fetch('galleries.json', {cache:'no-store'});
+  const data = await res.json(); // root object
+
+  const node = findNodeByPath(data, path);
+  if (!node) {
+    document.getElementById('subcats').outerHTML = '<div class="empty">Path tidak ditemukan.</div>';
+    document.getElementById('images').innerHTML = '';
+    return;
+  }
+
+  buildBreadcrumb(path, data);
+
+  document.title = (node.title || path || 'Gallery') + ' · Gallery';
+  document.getElementById('title').textContent = node.title || (path || 'Gallery');
+  document.getElementById('desc').textContent  = node.description || '';
+
+  renderSubcats(node, path);
+  renderImages(node);
+}
+load();
+</script>
+</body></html>
